@@ -1,0 +1,65 @@
+/* RinjinCLAB lockup — camera-watermark style.
+   Markup:
+   <span class="lockup">
+     <span class="lk-thin">neighbor</span><span class="lk-x">X</span>
+     <span class="lk-bold">rinjin CLAB</span>
+     <span class="lk-badge"><b>隣</b></span>
+   </span>
+   Size the whole thing with font-size on .lockup. */
+.lockup {
+  --lk-ink: currentColor;
+  --lk-blue: #1f33d6;
+  --lk-pink: #ff3fa4;
+  display: inline-flex;
+  align-items: center;
+  gap: .18em;
+  line-height: 1;
+  color: var(--lk-ink);
+  white-space: nowrap;
+}
+.lk-thin {
+  font-family: "Outfit", system-ui, sans-serif;
+  font-weight: 200;
+  letter-spacing: .02em;
+  font-size: .92em;
+  transform: translateY(.03em);
+}
+.lk-x {
+  font-family: "Outfit", system-ui, sans-serif;
+  font-weight: 300;
+  font-size: .9em;
+  margin: 0 .12em 0 .08em;
+}
+.lk-bold {
+  font-family: "Archivo", system-ui, sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -.025em;
+}
+.lk-badge {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 1.05em;
+  height: 1.05em;
+  margin-left: .1em;
+  background: var(--lk-blue);
+  border-radius: .06em;
+  overflow: hidden;
+  transform: translateY(-.04em);
+}
+.lk-badge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.22) 28%, transparent 32%) 0 0 / .09em .09em;
+}
+.lk-badge b {
+  position: relative;
+  font-family: "Shippori Mincho B1", "Noto Serif JP", serif;
+  font-weight: 800;
+  font-size: .78em;
+  color: var(--lk-pink);
+  text-shadow: .03em .03em 0 #fff;
+}
+.lk-keep { display: inline-flex; align-items: center; gap: .18em; white-space: nowrap; }

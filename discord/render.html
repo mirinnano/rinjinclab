@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>RinjinCLAB Discord assets</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,900;1,900&family=Outfit:wght@200;300&family=JetBrains+Mono:wght@400;600&family=Shippori+Mincho+B1:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/logo.css">
+<style>
+  html, body { margin: 0; background: transparent; }
+  .art { position: relative; overflow: hidden; color: #f2f1ec; background: #0b0b0c; }
+  .dots { position: absolute; inset: 0; background: radial-gradient(circle, rgba(242,241,236,.18) 1.4px, transparent 1.8px) 0 0 / 8px 8px; }
+  .word { position: absolute; font-family: Archivo, sans-serif; font-weight: 900; line-height: .8; letter-spacing: -.04em; white-space: nowrap; color: transparent;
+          background: radial-gradient(circle, rgba(242,241,236,.22) 1.6px, transparent 2px) 0 0 / 8px 8px; -webkit-background-clip: text; background-clip: text; }
+  .mono { font-family: "JetBrains Mono", monospace; }
+
+  /* icon 512 — blue badge with 隣 */
+  .icon { width: 512px; height: 512px; background: #1f33d6; display: grid; place-items: center; }
+  .icon .pink { position: absolute; inset: 0; background: radial-gradient(circle, rgba(255,63,164,.6) 2.6px, transparent 3.2px) 0 0 / 14px 14px;
+                -webkit-mask: linear-gradient(135deg, transparent 40%, #000); mask: linear-gradient(135deg, transparent 40%, #000); }
+  .icon b { position: relative; font-family: "Shippori Mincho B1", serif; font-weight: 800; font-size: 330px; line-height: 1; color: #ff3fa4; text-shadow: 12px 12px 0 #fff; transform: translateY(-8px); }
+
+  /* icon alt — mascot */
+  .icon2 { width: 512px; height: 512px; }
+  .icon2 img { width: 100%; height: 100%; object-fit: cover; filter: saturate(1.25) contrast(1.1); }
+
+  /* banner 960x540 & splash 1920x1080 & og 1200x630 */
+  .wide { display: grid; grid-template-columns: 1fr 1fr; }
+  .wide .photo { position: relative; background: url(../assets/collage.webp) center 30% / cover; }
+  .wide .photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #0b0b0c 0%, transparent 35%); }
+  .wide .copy { position: relative; display: flex; flex-direction: column; justify-content: center; padding-left: 7%; z-index: 1; }
+  .wide .eyebrow { font-size: .16em; color: #8b8a86; margin-bottom: .5em; display: flex; align-items: center; gap: .5em; }
+  .wide .eyebrow i { width: .5em; height: .5em; border-radius: 50%; background: #ff2a1a; display: inline-block; }
+  .wide .sub { white-space: nowrap; font-family: "Shippori Mincho B1", serif; font-weight: 800; font-size: .3em; margin-top: .6em; }
+  .wide .sub span { color: #ff3fa4; }
+  .wide .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 2.4em; background: #ffe100; color: #0b0b0c; z-index: 2;
+               display: flex; align-items: center; gap: 1.2em; padding-left: 7%; font-family: Archivo, sans-serif; font-weight: 900; font-size: .2em; white-space: nowrap; }
+  .wide .bar b { color: #ff2a1a; }
+  .banner { width: 960px; height: 540px; font-size: 200px; }
+  .splash { width: 1920px; height: 1080px; font-size: 400px; }
+  .og     { width: 1200px; height: 630px; font-size: 230px; }
+  .wide .lockup { font-size: .3em; flex-direction: column; align-items: flex-start; gap: .1em; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const t = new URLSearchParams(location.search).get("t") || "icon";
+const lockup = `<span class="lockup"><span><span class="lk-thin">neighbor</span><span class="lk-x">X</span></span><span class="lk-keep"><span class="lk-bold">rinjin CLAB</span><span class="lk-badge"><b>隣</b></span></span></span>`;
+const bar = `<div class="bar"><span>部員募集中だよ</span><b>✳</b><span>RINJIN CLAB</span><b>✳</b><span>隣人部</span><b>✳</b><span>NOW RECRUITING</span><b>✳</b><span>部員募集中だよ</span></div>`;
+const wide = (cls) => `<div class="art wide ${cls}"><div class="dots" style="opacity:.35"></div>
+  <div class="copy"><div class="eyebrow mono"><i></i>REC · DISCORD</div>${lockup}<div class="sub">部員募集中<span>だよ</span></div></div>
+  <div class="photo"></div>${bar}</div>`;
+const T = {
+  icon:   `<div class="art icon"><div class="pink"></div><b>隣</b></div>`,
+  icon2:  `<div class="art icon2"><img src="../assets/mascot.webp"></div>`,
+  banner: wide("banner"),
+  splash: wide("splash"),
+  og:     wide("og"),
+  favicon:`<div class="art icon" style="width:64px;height:64px"><b style="font-size:46px;text-shadow:2px 2px 0 #fff;transform:none">隣</b></div>`,
+  logo:   `<div style="font-size:120px;padding:24px 30px;color:#0b0b0c;display:inline-block;line-height:1">${lockup.replace('class="lockup"','class="lockup" style="flex-direction:row"')}</div>`,
+  logow:  `<div style="font-size:120px;padding:24px 30px;color:#f2f1ec;display:inline-block;line-height:1">${lockup.replace('class="lockup"','class="lockup" style="flex-direction:row"')}</div>`,
+};
+document.getElementById("root").innerHTML = T[t];
+</script>
+</body>
+</html>
