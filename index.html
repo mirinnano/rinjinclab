@@ -4,163 +4,173 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RinjinCLAB 隣人部</title>
-  <meta name="description" content="あの伝説のサーバー隣人部、復活。古き隣人よ戻れ、新たな漢集え。ルールはただ1つ、有言実行。">
-  <meta property="og:title" content="RinjinCLAB 隣人部">
-  <meta property="og:description" content="伝説のサーバー、復活。ルールはただ1つ、有言実行。">
+  <meta name="description" content="The legend is back. あの伝説のサーバー隣人部、復活。古き隣人よ戻れ、新たな漢集え。ルールはただ1つ、有言実行。">
+  <meta property="og:title" content="RinjinCLAB — The Legend Is Back">
+  <meta property="og:description" content="あの伝説のサーバー隣人部、復活。ルールはただ1つ、有言実行。">
   <meta property="og:image" content="assets/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#0b0b0c">
   <link rel="icon" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,800;0,900;1,900&family=Outfit:wght@200;300;500&family=JetBrains+Mono:wght@400;600&family=Shippori+Mincho+B1:wght@500;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,800;0,900;1,900&family=Outfit:wght@200;300;500&family=JetBrains+Mono:wght@400;600&family=Shippori+Mincho+B1:wght@500;800&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/logo.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div class="cursor" aria-hidden="true"><i></i></div>
+<div class="grain" aria-hidden="true"></div>
+
 <header class="nav">
   <a class="nav-logo" href="#top" aria-label="RinjinCLAB トップ">
     <span class="lockup"><span class="lk-bold">rinjin CLAB</span><span class="lk-badge"><b>隣</b></span></span>
   </a>
-  <nav class="nav-links">
-    <a href="#manifesto">部訓</a>
-    <a href="#rule">ルール</a>
-    <a href="#members">部員</a>
-    <a href="#join">入部</a>
+  <nav class="nav-links mono">
+    <a href="#rule">RULE</a>
+    <a href="#code">CODE</a>
+    <a href="#neighbors">NEIGHBORS</a>
   </nav>
-  <a class="btn btn-sm" data-discord href="#join">Discord</a>
+  <a class="nav-cta mono magnet" data-discord href="#join">JOIN DISCORD ↗</a>
 </header>
 
 <main id="top">
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bgword" aria-hidden="true">RINJIN<br>CLAB</div>
-    <div class="hero-inner">
-      <p class="eyebrow mono"><span class="dot"></span> REC · 伝説のサーバー、復活</p>
-      <h1 class="hero-title">
+  <!-- 01 STAGE: hero → develop -->
+  <section class="scene stage" data-scene="stage">
+    <div class="pin">
+      <canvas class="gl" id="gl" aria-hidden="true"></canvas>
+      <div class="stage-fallback" aria-hidden="true"></div>
+      <div class="stage-shade" aria-hidden="true"></div>
+
+      <div class="hero-copy">
+        <p class="kicker mono"><span>THE LEGENDARY SERVER</span><span class="sep">/</span><span>伝説のサーバー</span></p>
+        <h1 class="hero-h1" aria-label="The legend is back.">
+          <span class="line"><span class="w">THE</span><span class="w">LEGEND</span></span>
+          <span class="line"><span class="w">IS</span><span class="w">BACK<em>.</em></span></span>
+        </h1>
+        <div class="hero-foot">
+          <p class="hero-jp">あの伝説のサーバー、<b>隣人部</b>復活。<br>古き隣人よ戻れ。新たな漢集え。</p>
+          <p class="scroll-hint mono">SCROLL TO DEVELOP<i></i></p>
+        </div>
+      </div>
+
+      <div class="develop mono" aria-hidden="true">
+        <span>DEVELOPING — 現像中</span>
+        <b data-pct>000%</b>
+      </div>
+
+      <div class="watermark" aria-hidden="true">
         <span class="lockup">
           <span class="lk-thin">neighbor</span><span class="lk-x">X</span>
           <span class="lk-keep"><span class="lk-bold">rinjin CLAB</span><span class="lk-badge"><b>隣</b></span></span>
         </span>
-      </h1>
-      <p class="hero-sub">あの伝説のサーバー、<b>隣人部</b>が復活。<br>古き隣人よ戻れ。新たな漢集え。</p>
-      <div class="hero-cta">
-        <a class="btn" data-discord href="#join">Discord に参加する <span aria-hidden="true">→</span></a>
-        <a class="btn btn-ghost" href="#manifesto">部訓を読む</a>
-      </div>
-    </div>
-
-    <figure class="shot" id="shot">
-      <div class="shot-frame">
-        <img src="assets/collage.webp" srcset="assets/collage-900.webp 900w, assets/collage.webp 1775w" sizes="(max-width: 900px) 100vw, 560px" alt="隣人部の部員たちのコラージュ" width="1775" height="1755">
-        <div class="shot-scan" aria-hidden="true"></div>
-      </div>
-      <figcaption class="shot-mark">
-        <span class="lockup">
-          <span class="lk-thin">neighbor</span><span class="lk-x">X</span>
-          <span class="lk-bold">rinjin CLAB</span>
-          <span class="lk-badge"><b>隣</b></span>
-        </span>
         <span class="exif mono">
-          <span>230mm&nbsp; f/2.67&nbsp; 1/50s&nbsp; ISO889</span>
-          <small data-clock>2026/09/08 17:02</small>
+          <span><b data-exif="mm">0</b>mm&nbsp; f/<b data-exif="f">1.00</b>&nbsp; 1/<b data-exif="ss">8000</b>s&nbsp; ISO<b data-exif="iso">100</b></span>
+          <small>2026/09/08 17:02 — THE DAY WE MET</small>
         </span>
-      </figcaption>
-    </figure>
+      </div>
+
+      <p class="scene-label mono" data-label>01 — THE LEGEND IS BACK</p>
+    </div>
   </section>
 
-  <!-- MARQUEE -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>隣人部 復活</span><i>✳</i><span>古き隣人よ戻れ</span><i>✳</i><span>新たな漢集え</span><i>✳</i><span>有言実行</span><i>✳</i>
-      <span>隣人部 復活</span><i>✳</i><span>古き隣人よ戻れ</span><i>✳</i><span>新たな漢集え</span><i>✳</i><span>有言実行</span><i>✳</i>
-    </div>
-  </div>
-
-  <!-- MANIFESTO -->
-  <section class="section manifesto" id="manifesto">
-    <div class="section-head">
-      <p class="mono label">01 / MANIFESTO</p>
-      <h2>部訓</h2>
-    </div>
-    <div class="manifesto-body">
-      <ol class="tategaki">
-        <li>とにかく臨機応変に隣人</li>
-        <li>ともよき関係を築くべく</li>
-        <li>からだと心を健全に鍛え</li>
-        <li>たびだちのその日まで</li>
-        <li>共に想い募らせ励まし合い</li>
-        <li>皆の信望を集める人間になろう</li>
-      </ol>
-      <div class="manifesto-side">
-        <img class="mascot" src="assets/mascot.webp" alt="" width="310" height="310" loading="lazy">
-        <p class="mono small">FIG.01 — 部の守り神（仮）</p>
+  <!-- 02 CALL -->
+  <section class="scene call" data-scene="call">
+    <div class="pin">
+      <p class="scene-label mono">02 — THE CALL / 招集</p>
+      <div class="row row-a" aria-label="Old neighbors, return. 古き隣人よ戻れ。">
+        <span>OLD NEIGHBORS, RETURN.</span><span class="jp">古き隣人よ戻れ</span><span>OLD NEIGHBORS, RETURN.</span><span class="jp">古き隣人よ戻れ</span>
+      </div>
+      <div class="call-mid">
+        <div class="call-lens"><img src="assets/mascot.webp" alt="" width="310" height="310"></div>
+        <p class="mono call-cap">EVERYONE IS SOMEONE'S NEIGHBOR.<br>誰かの隣に、席がある。</p>
+      </div>
+      <div class="row row-b" aria-label="New blood, assemble. 新たな漢集え。">
+        <span class="jp">新たな漢集え</span><span>NEW BLOOD, ASSEMBLE.</span><span class="jp">新たな漢集え</span><span>NEW BLOOD, ASSEMBLE.</span>
       </div>
     </div>
   </section>
 
-  <!-- RULE -->
-  <section class="section rule" id="rule">
-    <div class="section-head">
-      <p class="mono label">02 / RULE</p>
-      <h2>ルールはただ1つ</h2>
+  <!-- 03 RULE -->
+  <section class="scene rule" id="rule" data-scene="rule">
+    <div class="pin">
+      <p class="scene-label mono">03 — ONE RULE / ルールはただ1つ</p>
+      <p class="rule-pre"><span>THERE IS ONLY</span><span>ONE RULE.</span></p>
+      <p class="rule-word" aria-label="有言実行"><span>有</span><span>言</span><span>実</span><span>行</span></p>
+      <p class="rule-en mono">SAY IT. <b>DO IT.</b> — 言ったら、やる。</p>
     </div>
-    <p class="rule-word">有言実行</p>
-    <ul class="rule-tags">
-      <li>人〇食</li><li>ケツ穴線香花火</li><li>全〇ギター</li><li>美人局</li><li>詐○</li><li>珍走</li><li>公然わいせつ</li><li>職場凸</li>
-    </ul>
+  </section>
+
+  <!-- 04 PIT (physics) -->
+  <section class="pit-sec">
+    <div class="sec-head">
+      <p class="mono label">04 — EXAMPLES OF 有言実行</p>
+      <h2>Say it, <i>then</i> do it.</h2>
+      <p class="mono hint">DRAG &amp; THROW ↓</p>
+    </div>
+    <div class="pit" id="pit">
+      <noscript><p>人〇食 / ケツ穴線香花火 / 全〇ギター / 美人局 / 詐○ / 珍走 / 公然わいせつ / 職場凸</p></noscript>
+    </div>
     <div class="welcome">
-      <p class="mono label">WELCOME</p>
-      <ul>
-        <li>不登校</li><li>ニート</li><li>学生</li><li>社会人</li><li>ギャングスタ</li>
-      </ul>
-      <p class="welcome-tail">大歓迎</p>
+      <p class="mono label">ALL WELCOME — 大歓迎</p>
+      <p class="welcome-list"><span>不登校</span><span>ニート</span><span>学生</span><span>社会人</span><span>ギャングスタ</span></p>
     </div>
   </section>
 
-  <!-- ABOUT / STATS -->
-  <section class="section about">
-    <div class="section-head">
-      <p class="mono label">03 / ABOUT</p>
-      <h2>隣人部とは</h2>
-    </div>
-    <div class="about-grid">
-      <p class="about-lead" data-fill="about">
-        隣にいる人と、ちゃんと仲良くなるための部。<br>
-        集まって、食べて、喋って、たまに鍛える。
-      </p>
-      <dl class="stats">
-        <div><dt class="mono">OWNER</dt><dd>こてっちゃん</dd></div>
-        <div><dt class="mono">STATUS</dt><dd>復活</dd></div>
-        <div><dt class="mono">BASE</dt><dd data-fill="base">Discord</dd></div>
-      </dl>
+  <!-- 05 CODE -->
+  <section class="scene code" id="code" data-scene="code">
+    <div class="pin">
+      <p class="scene-label mono">05 — THE CODE / 部訓</p>
+      <div class="code-grid">
+        <ol class="code-en mono">
+          <li>Adapt to anything —</li>
+          <li>build good bonds with your neighbors.</li>
+          <li>Train the body and the mind,</li>
+          <li>until the day we set off.</li>
+          <li>Feel it together, lift each other up,</li>
+          <li>and become someone everyone trusts.</li>
+        </ol>
+        <ol class="tategaki">
+          <li>とにかく臨機応変に隣人</li>
+          <li>ともよき関係を築くべく</li>
+          <li>からだと心を健全に鍛え</li>
+          <li>たびだちのその日まで</li>
+          <li>共に想い募らせ励まし合い</li>
+          <li>皆の信望を集める人間になろう</li>
+        </ol>
+        <figure class="code-mascot">
+          <img src="assets/mascot.webp" alt="" width="310" height="310" loading="lazy">
+          <figcaption class="mono">FIG.01 — GUARDIAN 守り神</figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
-  <!-- MEMBERS -->
-  <section class="section members" id="members">
-    <div class="section-head">
-      <p class="mono label">04 / MEMBERS</p>
-      <h2>部員</h2>
+  <!-- 06 NEIGHBORS -->
+  <section class="neighbors" id="neighbors">
+    <div class="sec-head">
+      <p class="mono label">06 — NEIGHBORS / 部員</p>
+      <h2>The usual <i>suspects.</i></h2>
     </div>
+    <div class="owner" id="owner"></div>
     <ul class="member-grid" id="member-grid"></ul>
   </section>
 
-  <!-- JOIN -->
-  <section class="section join" id="join">
-    <div class="join-card">
+  <!-- 07 JOIN -->
+  <section class="scene join" id="join" data-scene="join">
+    <div class="pin">
       <div class="join-halftone" aria-hidden="true"></div>
-      <p class="mono label">05 / JOIN</p>
-      <h2 class="join-title">部員募集中<span>だよ</span></h2>
-      <p class="join-sub">古き隣人よ戻れ。新たな漢集え。</p>
-      <a class="btn btn-xl" data-discord href="#">Discord に参加する <span aria-hidden="true">→</span></a>
-      <ol class="join-steps mono">
-        <li><b>01</b> 招待リンクから参加</li>
-        <li><b>02</b> #自己紹介 に一言</li>
-        <li><b>03</b> 隣人になる</li>
-      </ol>
+      <p class="scene-label mono">07 — JOIN / 入部</p>
+      <div class="join-body">
+        <h2 class="join-title"><span class="line"><span class="w">YOUR SEAT</span></span><span class="line"><span class="w">IS STILL <em>WARM.</em></span></span></h2>
+        <p class="join-jp">部員募集中<span>だよ</span></p>
+        <div class="join-actions">
+          <a class="btn-xl magnet" data-discord href="#">JOIN THE DISCORD <span aria-hidden="true">→</span></a>
+          <button class="copy mono" type="button" data-copy>discord.gg/k6h8BWQcwc <b>COPY</b></button>
+        </div>
+      </div>
+      <div class="stamp" aria-hidden="true"><b>隣</b></div>
     </div>
   </section>
 
@@ -168,12 +178,14 @@
 
 <footer class="footer">
   <div class="footer-word" aria-hidden="true">RINJIN CLAB</div>
-  <div class="footer-row">
-    <span class="lockup"><span class="lk-bold">rinjin CLAB</span><span class="lk-badge"><b>隣</b></span></span>
-    <span class="mono small">© <span data-year>2026</span> 隣人部 · all neighbors reserved</span>
+  <div class="footer-row mono">
+    <span>© <span data-year>2026</span> 隣人部 — ALL NEIGHBORS RESERVED</span>
+    <span>OWNER: こてっちゃん</span>
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 <script src="site.js"></script>
 </body>
 </html>
