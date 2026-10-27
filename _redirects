@@ -1,0 +1,3 @@
+# Cloudflare Pages: answer /invite with a real HTTP redirect (GitHub Pages ignores this file and serves invite/index.html instead)
+/invite   https://discord.gg/k6h8BWQcwc   302
+/invite/  https://discord.gg/k6h8BWQcwc   302

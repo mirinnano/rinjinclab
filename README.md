@@ -34,3 +34,7 @@ WebGL のテクスチャは file:// では読めないので、必ずサーバ�
 
 各シーンの静止画: `?s=<scene>&y=<0〜1>`（例 `?s=rule&y=0.65`）、イントロ固定は `&t=0.4`。
 `node tools/stills.mjs out` で全シーンを書き出し（`npm i puppeteer-core` が必要）。
+
+## 招待リダイレクト
+`/invite` → Discord 招待へ転送。GitHub Pages では `invite/index.html`（即時リダイレクト）、Cloudflare Pages では `_redirects` の 302 が効く。
+招待リンクを変えるときは `invite/index.html`・`_redirects`・`site.js` の `CONFIG.discordInvite` を揃える。
