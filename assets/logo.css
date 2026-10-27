@@ -69,3 +69,4 @@
   text-shadow: .03em .03em 0 #fff;
 }
 .lk-keep { display: inline-flex; align-items: center; gap: .18em; white-space: nowrap; }
+.lk-zeiss { width: 1.12em; height: 1.12em; margin-left: .12em; object-fit: cover; border-radius: .05em; transform: translateY(-.04em); }

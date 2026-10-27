@@ -222,18 +222,19 @@ const scenes = {
   },
 
   call(p, el) {
-    const enter = outExpo(ramp(p, 0.0, 0.25));
-    const wrap = $(".disc-wrap", el);
-    wrap.style.transform = `translate3d(0, ${(1 - enter) * 30}vh, 0) scale(${lerp(0.7, 1, enter)})`;
-    const disc = $(".disc", el);
-    disc.style.transform = `rotate(${p * 720}deg)`;
-    disc.querySelector(".disc-sheen").style.setProperty("--sheen", `${-p * 720 + p * 200}deg`);
-    const st = outBack(ramp(p, 0.18, 0.34));
-    $(".disc-sticker", el).style.transform = `scale(${st}) rotate(${lerp(-40, -8, st)}deg)`;
+    // stickers slap down one after another, then drift with the scroll
+    const slap = (q, a, rot0, rot1) => { const k = outBack(ramp(p, a, a + 0.12)); return `scale(${lerp(2.4, 1, k)}) rotate(${lerp(rot0, rot1, k)}deg)`; };
+    const drift = (p - 0.5) * 40;
+    const m = $(".stk-mascot", el), z = $(".stk-zeiss", el);
+    [[m, 0.04, -30, -6], [z, 0.16, 25, 7]].forEach(([node, a, r0, r1], i) => {
+      const on = ramp(p, a, a + 0.04);
+      node.style.opacity = on;
+      node.style.transform = `translate3d(0, ${drift * (i + 1) * -0.4}px, 0) ${slap(node, a, r0, r1)}`;
+    });
     const tA = $(".tape-a .tape-track", el), tB = $(".tape-b .tape-track", el);
     tA.style.transform = `translate3d(${lerp(0, -40, p)}%, 0, 0)`;
     tB.style.transform = `translate3d(${lerp(-40, 0, p)}%, 0, 0)`;
-    const ta = outExpo(ramp(p, 0.08, 0.3)), tb = outExpo(ramp(p, 0.2, 0.42));
+    const ta = outExpo(ramp(p, 0.3, 0.5)), tb = outExpo(ramp(p, 0.4, 0.6));
     $(".tape-a", el).style.clipPath = `inset(0 ${(1 - ta) * 100}% 0 0)`;
     $(".tape-b", el).style.clipPath = `inset(0 0 0 ${(1 - tb) * 100}%)`;
   },
