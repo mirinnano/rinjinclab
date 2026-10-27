@@ -6,12 +6,6 @@ const CONFIG = {
   discordInvite: "https://discord.gg/k6h8BWQcwc",
 
   // 物理演算で落ちてくるタグ
-  // [text, style]  style: red / paper / blue / yellow / en(英字) / big(大きいブロック)
-  pit: [
-    ["有", "big red"], ["言", "big paper"], ["実", "big"], ["行", "big yellow"],
-    ["隣人部", "blue"], ["復活!!", "red"], ["古き隣人よ戻れ", ""], ["新たな漢集え", "paper"],
-    ["ルールはただ1つ", ""], ["SAY IT.", "en"], ["DO IT.", "en red"], ["RINJIN CLAB", "en paper"],
-  ],
 };
 // ============================================================
 
@@ -252,7 +246,7 @@ const scenes = {
     $$("span", word).forEach((s, i) => {
       const k = outExpo(ramp(p, 0.18 + i * 0.08, 0.38 + i * 0.08));
       s.style.opacity = k;
-      s.style.transform = `translate3d(0, ${(1 - k) * 24}%, 0) scale(${lerp(1.9, 1, k)})`;
+      s.style.transform = `translate3d(0, ${(1 - k) * 24}%, 0) scale(${lerp(1.9, 1, k)}) skewX(-9deg)`;
       s.style.filter = k < 1 ? `blur(${(1 - k) * 16}px)` : "none";
       s.style.textShadow = `${sh * 0.04}em ${sh * 0.04}em 0 var(--red)`;
     });
@@ -282,96 +276,6 @@ function progressOf(el) {
   return { p: span > 0 ? clamp(-r.top / span) : clamp(1 - r.top / innerHeight), visible: r.bottom > 0 && r.top < innerHeight };
 }
 
-// ---------- physics pit (Matter.js) ----------
-const Pit = (() => {
-  const host = $("#pit");
-  if (!window.Matter || !host) return null;
-  const { Engine, Bodies, Body, Composite, Constraint } = Matter;
-  const engine = Engine.create({ gravity: { y: 1.1 } });
-  const rnd = mulberry32(20260908);
-  let items = [], walls = [], started = false, drag = null;
-
-  const build = () => {
-    const W = host.clientWidth, H = host.clientHeight, t = 200;
-    Composite.remove(engine.world, walls);
-    walls = [
-      Bodies.rectangle(W / 2, H + t / 2, W * 3, t, { isStatic: true }),
-      Bodies.rectangle(-t / 2, H / 2 - 1500, t, H + 3000, { isStatic: true }),
-      Bodies.rectangle(W + t / 2, H / 2 - 1500, t, H + 3000, { isStatic: true }),
-    ];
-    Composite.add(engine.world, walls);
-  };
-
-  const start = () => {
-    if (started) return; started = true;
-    build();
-    const W = host.clientWidth;
-    CONFIG.pit.forEach(([text, tone], i) => {
-      const el = document.createElement("span");
-      el.className = "pill" + (tone ? " " + tone : "");
-      el.textContent = text;
-      host.append(el);
-      const w = el.offsetWidth, h = el.offsetHeight;
-      const x = clamp(w / 2 + rnd() * (W - w), w / 2, W - w / 2);
-      const body = Bodies.rectangle(x, -120 - i * 110, w, h, { chamfer: { radius: h / 2 - 1 }, restitution: 0.35, friction: 0.25, frictionAir: 0.012 });
-      Body.setAngle(body, (rnd() - 0.5) * 0.8);
-      Composite.add(engine.world, body);
-      items.push({ el, body, w, h });
-      el.addEventListener("pointerdown", (e) => grab(e, body, el));
-    });
-  };
-
-  const local = (e) => { const r = host.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
-  function grab(e, body, el) {
-    e.preventDefault();
-    el.setPointerCapture(e.pointerId);
-    el.classList.add("grab");
-    const pt = local(e);
-    const c = Constraint.create({
-      pointA: pt, bodyB: body,
-      pointB: Matter.Vector.rotate({ x: pt.x - body.position.x, y: pt.y - body.position.y }, -body.angle),
-      stiffness: 0.18, damping: 0.08, length: 0,
-    });
-    Composite.add(engine.world, c);
-    drag = { c, el };
-    const move = (ev) => { const q = local(ev); c.pointA.x = q.x; c.pointA.y = q.y; };
-    const up = () => {
-      Composite.remove(engine.world, c); el.classList.remove("grab"); drag = null;
-      el.removeEventListener("pointermove", move); el.removeEventListener("pointerup", up); el.removeEventListener("pointercancel", up);
-    };
-    el.addEventListener("pointermove", move); el.addEventListener("pointerup", up); el.addEventListener("pointercancel", up);
-  }
-
-  addEventListener("resize", () => started && build());
-  new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && start()), { threshold: 0.2 }).observe(host);
-
-  let acc = 0, last = 0;
-  return {
-    start,
-    settle(n) { start(); for (let i = 0; i < n; i++) Engine.update(engine, 1000 / 60); },
-    step(now) {
-      if (!started) return;
-      const dt = last ? Math.min(now - last, 100) : 16.67; last = now; acc += dt;
-      // the cursor shoves pills it passes over
-      const r = host.getBoundingClientRect();
-      const px = pointer.x - r.left, py = pointer.y - r.top;
-      while (acc >= 1000 / 60) {
-        if (!drag && FINE) items.forEach(({ body }) => {
-          const dx = body.position.x - px, dy = body.position.y - py, d2 = dx * dx + dy * dy;
-          if (d2 < 120 * 120 && d2 > 1) { const f = 0.0016 * body.mass * (1 - Math.sqrt(d2) / 120); Body.applyForce(body, body.position, { x: (dx / Math.sqrt(d2)) * f, y: (dy / Math.sqrt(d2)) * f - f * 0.6 }); }
-        });
-        Engine.update(engine, 1000 / 60); acc -= 1000 / 60;
-      }
-      this.paint();
-    },
-    paint() {
-      items.forEach(({ el, body, w, h }) => {
-        el.style.transform = `translate3d(${body.position.x - w / 2}px, ${body.position.y - h / 2}px, 0) rotate(${body.angle}rad)`;
-      });
-    },
-  };
-})();
-
 // ---------- cursor + magnets ----------
 const cursorEl = $(".cursor"), cur = { x: pointer.x, y: pointer.y, s: 1 };
 const magnets = $$(".magnet").map((el) => ({ el, x: 0, y: 0 }));
@@ -380,7 +284,7 @@ function interact() {
   if (!pointer.moved) return;
   cursorEl.classList.add("on");
   cur.x += (pointer.x - cur.x) * 0.25; cur.y += (pointer.y - cur.y) * 0.25;
-  const hot = document.elementFromPoint(pointer.x, pointer.y)?.closest("a, button, .pill");
+  const hot = document.elementFromPoint(pointer.x, pointer.y)?.closest("a, button");
   cur.s += ((hot ? 3.4 : 1) - cur.s) * 0.2;
   cursorEl.style.transform = `translate3d(${cur.x}px, ${cur.y}px, 0)`;
   cursorEl.firstElementChild.style.setProperty("--s", cur.s.toFixed(3));
@@ -415,7 +319,6 @@ function frame(now) {
     const { p, visible } = progressOf(el);
     if (visible || el.dataset.scene === "stage") scenes[el.dataset.scene](p, el, now, intro);
   });
-  Pit?.step(now);
   if (FINE) interact();
   if (DEBUG_Y === null) requestAnimationFrame(frame);
 }
@@ -425,8 +328,6 @@ Promise.all([document.fonts.ready, GL ? GL.ready : Promise.resolve()]).then(() =
     // ?y=2.5 (viewports) or ?s=rule&y=0.5 (progress inside a scene / section)
     const target = Q.has("s") ? $(`[data-scene="${Q.get("s")}"], .${Q.get("s")}`) : null;
     scrollTo(0, target ? target.offsetTop + DEBUG_Y * Math.max(target.offsetHeight - innerHeight, 0) : DEBUG_Y * innerHeight);
-    const pr = $("#pit").getBoundingClientRect();
-    if (pr.top < innerHeight && pr.bottom > 0) { Pit?.settle(260); Pit?.paint(); }
     const t = performance.now(); frame(t); frame(t); // run twice so the loupe's easing lands
   } else {
     requestAnimationFrame(frame);
