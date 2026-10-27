@@ -222,13 +222,20 @@ const scenes = {
   },
 
   call(p, el) {
-    const a = $(".row-a", el), b = $(".row-b", el);
-    a.style.transform = `translate3d(${lerp(4, -52, p)}%, 0, 0)`;
-    b.style.transform = `translate3d(${lerp(-52, 4, p)}%, 0, 0)`;
-    const lensEl = $(".call-lens", el);
-    const k = outBack(ramp(p, 0.15, 0.4));
-    lensEl.style.transform = `scale(${k}) rotate(${p * 540}deg)`;
-    $(".call-cap", el).style.opacity = ramp(p, 0.3, 0.45);
+    const enter = outExpo(ramp(p, 0.0, 0.25));
+    const wrap = $(".disc-wrap", el);
+    wrap.style.transform = `translate3d(0, ${(1 - enter) * 30}vh, 0) scale(${lerp(0.7, 1, enter)})`;
+    const disc = $(".disc", el);
+    disc.style.transform = `rotate(${p * 720}deg)`;
+    disc.querySelector(".disc-sheen").style.setProperty("--sheen", `${-p * 720 + p * 200}deg`);
+    const st = outBack(ramp(p, 0.18, 0.34));
+    $(".disc-sticker", el).style.transform = `scale(${st}) rotate(${lerp(-40, -8, st)}deg)`;
+    const tA = $(".tape-a .tape-track", el), tB = $(".tape-b .tape-track", el);
+    tA.style.transform = `translate3d(${lerp(0, -40, p)}%, 0, 0)`;
+    tB.style.transform = `translate3d(${lerp(-40, 0, p)}%, 0, 0)`;
+    const ta = outExpo(ramp(p, 0.08, 0.3)), tb = outExpo(ramp(p, 0.2, 0.42));
+    $(".tape-a", el).style.clipPath = `inset(0 ${(1 - ta) * 100}% 0 0)`;
+    $(".tape-b", el).style.clipPath = `inset(0 0 0 ${(1 - tb) * 100}%)`;
   },
 
   rule(p, el) {
