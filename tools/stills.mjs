@@ -37,7 +37,7 @@ page.on("console", (m) => m.type() === "error" && errs.push(m.text()));
 page.on("pageerror", (e) => errs.push(String(e)));
 for (const s of shots) {
   const [name, q] = s.trim().split(" ");
-  await page.goto(`http://localhost:4173/?${q}`, { waitUntil: "networkidle0" });
+  await page.goto(`http://localhost:4317/?${q}`, { waitUntil: "networkidle0" });
   await page.waitForFunction("window.__ready === true", { timeout: 15000 });
   await new Promise((r) => setTimeout(r, 150));
   await page.screenshot({ path: `${out}/${name}.png` });

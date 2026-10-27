@@ -28,7 +28,7 @@ gh api -X POST repos/{owner}/rinjinclab/pages -f "source[branch]=main" -f "sourc
 
 ## ローカル確認
 ```
-python3 -m http.server 4173   # → http://localhost:4173
+python3 tools/serve.py   # → http://localhost:4317 (no-cache)
 ```
 WebGL のテクスチャは file:// では読めないので、必ずサーバー経由で開く。
 

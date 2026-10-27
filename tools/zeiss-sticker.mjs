@@ -8,7 +8,7 @@ import fs from "node:fs";
 const OUT = process.argv[2] || "assets/zeiss-mascot.png";
 const browser = await puppeteer.launch({ executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", headless: true });
 const page = await browser.newPage();
-await page.goto("http://localhost:4173/discord/render.html?t=logo", { waitUntil: "networkidle0" });
+await page.goto("http://localhost:4317/discord/render.html?t=logo", { waitUntil: "networkidle0" });
 const url = await page.evaluate(async () => {
   const S = 720;
   const c = document.createElement("canvas"); c.width = S; c.height = S;

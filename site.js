@@ -12,6 +12,12 @@ const CONFIG = {
 // Choreography is a pure function of progress (scroll p, or intro t).
 // The rAF loop only supplies the clock; nothing animates on its own timers.
 
+// Local preview only: drop service workers left on this localhost port by other projects,
+// which otherwise intercept requests and serve their own cached files.
+if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && navigator.serviceWorker) {
+  navigator.serviceWorker.getRegistrations().then((rs) => rs.forEach((r) => r.unregister())).catch(() => {});
+}
+
 const Q = new URLSearchParams(location.search);
 const DEBUG_Y = Q.has("y") ? parseFloat(Q.get("y")) : null; // ?y=2.5 → scroll to 2.5 viewports, frozen
 const FREEZE_T = Q.has("t") ? parseFloat(Q.get("t")) : null; // ?t=0.8 → freeze intro at 0.8s
@@ -146,11 +152,12 @@ void main(){
     gl.viewport(0, 0, canvas.width, canvas.height);
   };
   resize(); addEventListener("resize", resize);
+  canvas.addEventListener("webglcontextlost", (e) => { e.preventDefault(); document.documentElement.classList.add("no-gl"); });
 
   return {
     ready,
     draw({ cell, dev, lens, mx, my, time }) {
-      if (!loaded) return;
+      if (!loaded || gl.isContextLost()) return;
       gl.uniform1i(U.uTex, 0);
       gl.uniform2f(U.uRes, canvas.width, canvas.height);
       gl.uniform2f(U.uMouse, mx * dpr, canvas.height - my * dpr);
@@ -325,13 +332,17 @@ function frame(now) {
   const intro = FREEZE_T !== null ? FREEZE_T : REDUCED || DEBUG_Y !== null ? 9 : (now - introStart) / 1000;
   sceneEls.forEach((el) => {
     const { p, visible } = progressOf(el);
-    if (visible || el.dataset.scene === "stage") scenes[el.dataset.scene](p, el, now, intro);
+    // one broken scene must not freeze the rest of the page
+    try { if (visible || el.dataset.scene === "stage") scenes[el.dataset.scene](p, el, now, intro); }
+    catch (e) { if (!el.dataset.err) { el.dataset.err = 1; console.error(el.dataset.scene, e); } }
   });
-  if (FINE) interact();
+  if (FINE) { try { interact(); } catch {} }
   if (DEBUG_Y === null) requestAnimationFrame(frame);
 }
 
-Promise.all([document.fonts.ready, GL ? GL.ready : Promise.resolve()]).then(() => {
+// Never wait forever on fonts or the texture: blocked requests (Shields, flaky CDN) just fall back.
+const timeout = (ms) => new Promise((r) => setTimeout(r, ms));
+Promise.race([Promise.all([document.fonts.ready, GL ? GL.ready : Promise.resolve()]), timeout(2500)]).then(() => {
   if (DEBUG_Y !== null) {
     // ?y=2.5 (viewports) or ?s=rule&y=0.5 (progress inside a scene / section)
     const target = Q.has("s") ? $(`[data-scene="${Q.get("s")}"], .${Q.get("s")}`) : null;
