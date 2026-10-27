@@ -25,3 +25,12 @@ gh api -X POST repos/{owner}/rinjinclab/pages -f "source[branch]=main" -f "sourc
 → `https://<user>.github.io/rinjinclab/`
 
 **Cloudflare Pages**: ダッシュボード → Workers & Pages → Pages → Git 連携でこのリポジトリを選択。ビルドコマンドなし、出力ディレクトリ `/`。
+
+## ローカル確認
+```
+python3 -m http.server 4173   # → http://localhost:4173
+```
+WebGL のテクスチャは file:// では読めないので、必ずサーバー経由で開く。
+
+各シーンの静止画: `?s=<scene>&y=<0〜1>`（例 `?s=rule&y=0.65`）、イントロ固定は `&t=0.4`。
+`node tools/stills.mjs out` で全シーンを書き出し（`npm i puppeteer-core` が必要）。
