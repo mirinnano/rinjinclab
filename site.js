@@ -3,21 +3,21 @@
 // ============================================================
 const CONFIG = {
   // Discord 招待リンク（無期限のものを推奨）
-  discordInvite: "",
+  discordInvite: "https://discord.gg/k6h8BWQcwc",
 
   // 部員カード。face は集合写真の中の顔の位置（0〜1、左上が 0,0）
   members: [
-    { name: "部員 01", role: "部長",   face: [0.07, 0.035] },
-    { name: "部員 02", role: "",       face: [0.79, 0.17] },
-    { name: "部員 03", role: "",       face: [0.05, 0.50] },
-    { name: "部員 04", role: "",       face: [0.15, 0.45] },
-    { name: "部員 05", role: "",       face: [0.34, 0.55] },
-    { name: "部員 06", role: "",       face: [0.63, 0.50] },
-    { name: "部員 07", role: "",       face: [0.46, 0.71] },
-    { name: "部員 08", role: "",       face: [0.44, 0.89] },
-    { name: "部員 09", role: "",       face: [0.80, 0.81] },
-    { name: "部員 10", role: "",       face: [0.92, 0.11] },
-    { name: "部員 11", role: "",       face: [0.59, 0.84] },
+    { name: "こてっちゃん", role: "鯖主",   face: [0.07, 0.035] },
+    { name: "隣人 02", role: "",       face: [0.79, 0.17] },
+    { name: "隣人 03", role: "",       face: [0.05, 0.50] },
+    { name: "隣人 04", role: "",       face: [0.15, 0.45] },
+    { name: "隣人 05", role: "",       face: [0.34, 0.55] },
+    { name: "隣人 06", role: "",       face: [0.63, 0.50] },
+    { name: "隣人 07", role: "",       face: [0.46, 0.71] },
+    { name: "隣人 08", role: "",       face: [0.44, 0.89] },
+    { name: "隣人 09", role: "",       face: [0.80, 0.81] },
+    { name: "隣人 10", role: "",       face: [0.92, 0.11] },
+    { name: "隣人 11", role: "",       face: [0.59, 0.84] },
     { name: "守り神", role: "マスコット", face: [0.53, 0.48] },
   ],
 };

@@ -188,6 +188,25 @@ a { color: inherit; }
   .manifesto-side { justify-self: center; }
 }
 
+/* rule */
+.rule-word {
+  margin: 0; font-family: "Shippori Mincho B1", serif; font-weight: 800;
+  font-size: clamp(80px, 19vw, 260px); line-height: 1; letter-spacing: .04em;
+  color: var(--paper); text-shadow: .03em .03em 0 var(--red);
+}
+.rule-tags { list-style: none; margin: clamp(28px, 4vw, 48px) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.rule-tags li {
+  padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px;
+  font-weight: 700; font-size: clamp(14px, 1.5vw, 17px);
+  transition: background .2s, color .2s, transform .2s;
+}
+.rule-tags li:hover { background: var(--red); color: var(--ink); transform: rotate(-3deg); }
+.welcome { margin-top: clamp(48px, 7vw, 90px); display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 24px; border-top: 1px solid var(--line); padding-top: 18px; }
+.welcome .label { margin: 0; width: 100%; }
+.welcome ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 22px; font-family: "Archivo", "Noto Sans JP", sans-serif; font-weight: 900; font-size: clamp(26px, 4.4vw, 56px); line-height: 1.2; }
+.welcome li:nth-child(odd) { color: var(--yellow); }
+.welcome-tail { margin: 0; font-family: "Shippori Mincho B1", serif; font-weight: 800; font-size: clamp(26px, 4.4vw, 56px); color: var(--pink); }
+
 /* about */
 .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: end; }
 .about-lead { margin: 0; font-size: clamp(20px, 2.4vw, 30px); line-height: 1.7; font-weight: 700; }
@@ -195,7 +214,7 @@ a { color: inherit; }
 .stats div { padding: 18px; border-left: 1px solid var(--line); }
 .stats div:first-child { border-left: 0; }
 .stats dt { font-size: 11px; color: var(--mute); }
-.stats dd { margin: 6px 0 0; font-family: "Archivo", sans-serif; font-weight: 900; font-size: clamp(22px, 3vw, 34px); line-height: 1; }
+.stats dd { margin: 6px 0 0; font-family: "Archivo", sans-serif; font-weight: 900; font-size: clamp(17px, 2vw, 26px); line-height: 1.1; white-space: nowrap; }
 @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; } }
 
 /* members */
