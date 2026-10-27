@@ -5,27 +5,12 @@ const CONFIG = {
   // Discord 招待リンク（無期限のものを推奨）
   discordInvite: "https://discord.gg/k6h8BWQcwc",
 
-  // 先頭が鯖主（大きく表示）。face は集合写真の中の顔の位置（0〜1、左上が 0,0）
-  members: [
-    { name: "こてっちゃん", role: "SERVER OWNER / 鯖主", face: [0.07, 0.035] },
-    { name: "隣人 02", role: "", face: [0.79, 0.17] },
-    { name: "隣人 03", role: "", face: [0.05, 0.50] },
-    { name: "隣人 04", role: "", face: [0.15, 0.45] },
-    { name: "隣人 05", role: "", face: [0.34, 0.55] },
-    { name: "隣人 06", role: "", face: [0.63, 0.50] },
-    { name: "隣人 07", role: "", face: [0.46, 0.71] },
-    { name: "隣人 08", role: "", face: [0.44, 0.89] },
-    { name: "隣人 09", role: "", face: [0.80, 0.81] },
-    { name: "隣人 10", role: "", face: [0.92, 0.11] },
-    { name: "隣人 11", role: "", face: [0.59, 0.84] },
-    { name: "守り神", role: "GUARDIAN", face: [0.53, 0.48] },
-  ],
-
   // 物理演算で落ちてくるタグ
   pit: [
-    ["人〇食", "red"], ["ケツ穴線香花火", ""], ["全〇ギター", "paper"], ["美人局", ""],
-    ["詐○", "red"], ["珍走", "blue"], ["公然わいせつ", ""], ["職場凸", "paper"],
-    ["有言実行", "red"], ["SAY IT.", ""], ["DO IT.", "paper"],
+    ["CANNIBALISM", "人〇食", "red"], ["BUTT SPARKLER", "ケツ穴線香花火", ""], ["NAKED GUITAR", "全〇ギター", "paper"],
+    ["HONEY TRAP", "美人局", ""], ["SCAM", "詐○", "red"], ["STREET RACING", "珍走", "blue"],
+    ["PUBLIC INDECENCY", "公然わいせつ", ""], ["WORKPLACE RAID", "職場凸", "paper"],
+    ["SAY IT.", "", ""], ["DO IT.", "有言実行", "red"],
   ],
 };
 // ============================================================
@@ -61,34 +46,6 @@ $("[data-copy]").addEventListener("click", async (e) => {
   try { await navigator.clipboard.writeText(CONFIG.discordInvite); b.textContent = "COPIED"; }
   catch { b.textContent = "COPY FAILED"; }
 });
-
-// Centre a face inside a box: zoom is the image width in box widths, boxAspect = box h / w.
-const IMG_ASPECT = 1755 / 1775;
-const FACE_ZOOM = 6;
-function setFace(el, f, boxAspect) {
-  const sx = FACE_ZOOM, sy = (FACE_ZOOM * IMG_ASPECT) / boxAspect;
-  const px = clamp((f[0] * sx - 0.5) / (sx - 1)), py = clamp((f[1] * sy - 0.5) / (sy - 1));
-  el.style.backgroundSize = `${FACE_ZOOM * 100}% auto`;
-  el.style.backgroundPosition = `${px * 100}% ${py * 100}%`;
-}
-{
-  const [owner, ...rest] = CONFIG.members;
-  const o = $("#owner");
-  o.innerHTML = `<div class="owner-face"></div><div><p class="owner-role mono"></p><p class="owner-name"></p><p class="owner-note mono">NO.00 — EVERYTHING STARTS HERE.</p></div>`;
-  setFace(o.querySelector(".owner-face"), owner.face, 5 / 4);
-  o.querySelector(".owner-role").textContent = owner.role;
-  o.querySelector(".owner-name").textContent = owner.name;
-  const grid = $("#member-grid");
-  rest.forEach((m, i) => {
-    const li = document.createElement("li");
-    li.className = "member";
-    li.innerHTML = `<div class="member-face"></div><div class="member-meta"><span class="member-no mono">NO.${String(i + 1).padStart(2, "0")}</span><p class="member-name"></p><span class="member-role mono"></span></div>`;
-    setFace(li.querySelector(".member-face"), m.face, 4 / 3);
-    li.querySelector(".member-name").textContent = m.name;
-    li.querySelector(".member-role").textContent = m.role;
-    grid.append(li);
-  });
-}
 
 // ---------- pointer ----------
 const pointer = { x: innerWidth * 0.68, y: innerHeight * 0.45, moved: false };
@@ -250,7 +207,7 @@ const scenes = {
     exif.ss.textContent = Math.round(lerp(8000, 50, e));
     exif.iso.textContent = Math.round(lerp(100, 889, e));
 
-    const label = p < 0.22 ? "01 — THE LEGEND IS BACK" : p < 0.68 ? "01 — DEVELOPING THE NEGATIVE" : "01 — DEVELOPED. 2026.09.08";
+    const label = p < 0.22 ? "01 — THE LEGEND IS BACK" : p < 0.68 ? "01 — DEVELOPING" : "01 — DEVELOPED";
     if (label !== lastLabel) { $("[data-label]", pin).textContent = label; lastLabel = label; }
     $("[data-label]", pin).style.opacity = 1 - ramp(p, 0.7, 0.75);
 
@@ -282,37 +239,40 @@ const scenes = {
 
   rule(p, el) {
     const pre = $(".rule-pre", el);
-    const pIn = outExpo(ramp(p, 0.0, 0.14)), pOut = ramp(p, 0.3, 0.42);
-    pre.style.opacity = pIn * (1 - pOut);
-    pre.style.transform = `translate3d(${(1 - pIn) * -60 - pOut * 60}px, 0, 0)`;
+    pre.style.opacity = ramp(p, 0.02, 0.12) * (1 - ramp(p, 0.75, 0.85));
 
-    const slam = ramp(p, 0.6, 0.72);
-    const amp = REDUCED ? 0 : (1 - slam) * (slam > 0 ? 14 : 0);
+    const slam = ramp(p, 0.62, 0.74);
+    const amp = REDUCED ? 0 : (1 - slam) * (slam > 0 ? 16 : 0);
     const step = Math.floor(p * 240);
     const word = $(".rule-word", el);
     word.style.transform = `translate3d(${(hash(step) - 0.5) * amp}px, ${(hash(step + 99) - 0.5) * amp}px, 0)`;
     const sh = outExpo(slam);
     $$("span", word).forEach((s, i) => {
-      const k = outExpo(ramp(p, 0.3 + i * 0.07, 0.48 + i * 0.07));
+      const k = outExpo(ramp(p, 0.12 + i * 0.1, 0.32 + i * 0.1));
       s.style.opacity = k;
-      s.style.transform = `translate3d(0, ${(1 - k) * 30}%, 0) scale(${lerp(2.2, 1, k)})`;
-      s.style.filter = k < 1 ? `blur(${(1 - k) * 18}px)` : "none";
-      s.style.textShadow = `${sh * 0.05}em ${sh * 0.05}em 0 var(--red)`;
+      s.style.transform = `translate3d(${(1 - k) * (i % 2 ? 40 : -40)}%, 0, 0) skewX(${(1 - k) * -14}deg)`;
+      s.style.filter = k < 1 ? `blur(${(1 - k) * 14}px)` : "none";
+      s.style.textShadow = i > 1 ? `${sh * 0.045}em ${sh * 0.045}em 0 var(--red)` : "none";
     });
-    $(".rule-en", el).style.opacity = ramp(p, 0.7, 0.8);
+    $(".rule-en", el).style.opacity = ramp(p, 0.72, 0.82);
+  },
+
+  welcome(p, el) {
+    const items = $$(".wl li", el);
+    items.forEach((li, i) => {
+      const k = outExpo(ramp(p, 0.05 + i * 0.13, 0.25 + i * 0.13));
+      li.classList.toggle("on", k > 0.5);
+      li.style.transform = `translate3d(${(1 - k) * 12}vw, 0, 0)`;
+    });
+    $(".wl-tail", el).style.opacity = ramp(p, 0.75, 0.85);
   },
 
   code(p, el) {
-    const lines = $$(".tategaki li", el);
-    const en = $$(".code-en li", el);
-    let active = -1;
-    lines.forEach((li, i) => {
-      const r = inOut(ramp(p, 0.08 + i * 0.12, 0.2 + i * 0.12));
-      li.style.clipPath = `inset(0 0 ${(1 - r) * 100}% 0)`;
-      if (r > 0.5) active = i;
+    $$(".code-list li", el).forEach((li, i) => {
+      const k = outExpo(ramp(p, 0.06 + i * 0.13, 0.22 + i * 0.13));
+      li.style.opacity = lerp(0.14, 1, k);
+      li.style.transform = `translate3d(${(1 - k) * 36}px, 0, 0)`;
     });
-    en.forEach((li, i) => li.classList.toggle("on", i === active));
-    $(".code-mascot img", el).style.transform = `rotate(${lerp(-25, 25, p)}deg) scale(${lerp(0.85, 1.05, p)})`;
   },
 
   join(p, el) {
@@ -323,8 +283,7 @@ const scenes = {
     const s = ramp(p, 0.3, 0.42);
     const stamp = $(".stamp", el);
     stamp.style.opacity = s > 0 ? 1 : 0;
-    stamp.style.transform = `scale(${lerp(3.2, 1, outBack(s))}) rotate(${lerp(-30, -9, outCubic(s))}deg)`;
-    $(".join-jp", el).style.opacity = ramp(p, 0.2, 0.32);
+    stamp.style.transform = `scale(${lerp(3.2, 1, outBack(s))}) rotate(${lerp(-24, -7, outCubic(s))}deg)`;
     $(".join-actions", el).style.opacity = ramp(p, 0.26, 0.38);
   },
 };
@@ -360,10 +319,11 @@ const Pit = (() => {
     if (started) return; started = true;
     build();
     const W = host.clientWidth;
-    CONFIG.pit.forEach(([text, tone], i) => {
+    CONFIG.pit.forEach(([text, sub, tone], i) => {
       const el = document.createElement("span");
       el.className = "pill" + (tone ? " " + tone : "");
       el.textContent = text;
+      if (sub) { const sm = document.createElement("small"); sm.textContent = sub; el.append(sm); }
       host.append(el);
       const w = el.offsetWidth, h = el.offsetHeight;
       const x = clamp(w / 2 + rnd() * (W - w), w / 2, W - w / 2);
@@ -434,7 +394,7 @@ function interact() {
   if (!pointer.moved) return;
   cursorEl.classList.add("on");
   cur.x += (pointer.x - cur.x) * 0.25; cur.y += (pointer.y - cur.y) * 0.25;
-  const hot = document.elementFromPoint(pointer.x, pointer.y)?.closest("a, button, .pill, .member, .owner");
+  const hot = document.elementFromPoint(pointer.x, pointer.y)?.closest("a, button, .pill");
   cur.s += ((hot ? 3.4 : 1) - cur.s) * 0.2;
   cursorEl.style.transform = `translate3d(${cur.x}px, ${cur.y}px, 0)`;
   cursorEl.firstElementChild.style.setProperty("--s", cur.s.toFixed(3));
