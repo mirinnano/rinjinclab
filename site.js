@@ -61,14 +61,14 @@ const GL = (() => {
 precision highp float;
 uniform sampler2D uTex;
 uniform vec2 uRes, uMouse;
-uniform float uCell, uDev, uImgAspect, uLens, uDpr, uTime;
+uniform float uCell, uDev, uImgAspect, uLens, uDpr, uTime, uZoom;
+uniform vec2 uCenter;
 const float PI = 3.14159265;
 vec2 cover(vec2 fc){
   vec2 uv = fc / uRes; uv.y = 1. - uv.y;
   float sa = uRes.x / uRes.y;
   vec2 s = sa > uImgAspect ? vec2(1., uImgAspect / sa) : vec2(sa / uImgAspect, 1.);
-  vec2 c = vec2(.5, sa > uImgAspect ? .42 : .5);
-  return clamp((uv - .5) * s + c, 0., 1.);
+  return clamp((uv - .5) * s * uZoom + uCenter, 0., 1.);
 }
 float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
 void main(){
@@ -126,7 +126,7 @@ void main(){
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
   const loc = gl.getAttribLocation(prog, "p");
   gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-  const U = {}; ["uTex", "uRes", "uMouse", "uCell", "uDev", "uImgAspect", "uLens", "uDpr", "uTime"].forEach((n) => (U[n] = gl.getUniformLocation(prog, n)));
+  const U = {}; ["uTex", "uRes", "uMouse", "uCell", "uDev", "uImgAspect", "uLens", "uDpr", "uTime", "uZoom", "uCenter"].forEach((n) => (U[n] = gl.getUniformLocation(prog, n)));
 
   let aspect = 1, loaded = false, dpr = 1;
   const img = new Image();
@@ -167,6 +167,10 @@ void main(){
       gl.uniform1f(U.uLens, lens);
       gl.uniform1f(U.uDpr, dpr);
       gl.uniform1f(U.uTime, time);
+      // frame the mascot and the round-glasses neighbour below it; on wide screens push them right of the headline
+      const wide = canvas.width / canvas.height > aspect;
+      gl.uniform1f(U.uZoom, wide ? 0.7 : 0.85);
+      gl.uniform2f(U.uCenter, wide ? 0.36 : 0.5, wide ? 0.6 : 0.58);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     },
   };
@@ -214,8 +218,8 @@ const scenes = {
 
     if (GL) {
       // the loupe wanders on its own until the pointer takes over
-      const tx = pointer.moved ? pointer.x : innerWidth * (0.68 + 0.08 * Math.sin(now * 0.0006));
-      const ty = pointer.moved ? pointer.y : innerHeight * (0.42 + 0.1 * Math.sin(now * 0.00083));
+      const tx = pointer.moved ? pointer.x : innerWidth * (0.72 + 0.06 * Math.sin(now * 0.0006));
+      const ty = pointer.moved ? pointer.y : innerHeight * (0.32 + 0.08 * Math.sin(now * 0.00083));
       lens.x += (tx - lens.x) * 0.14; lens.y += (ty - lens.y) * 0.14;
       const lensR = Math.min(innerWidth, innerHeight) * 0.17 * outExpo(ramp(intro, 0.6, 1.8)) * (1 - ramp(p, 0.14, 0.3));
       GL.draw({
