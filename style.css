@@ -186,9 +186,10 @@ button { font: inherit; color: inherit; }
   font-size: clamp(22px, 3vw, 44px); opacity: 0;
 }
 .rule-en em { font-style: inherit; color: var(--red); }
-.rule-receipts { list-style: none; margin: clamp(8px, 2vh, 20px) 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 26px; opacity: 0; }
+.rule-receipts { list-style: none; margin: clamp(8px, 2vh, 20px) auto 0; padding: 0 var(--gutter); max-width: 1100px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 26px; opacity: 0; }
 .rule-receipts li { display: flex; align-items: baseline; gap: 10px; font-family: var(--jp); font-weight: 700; font-feature-settings: "palt"; font-size: clamp(15px, 1.5vw, 20px); color: #e6e5df; }
 .rule-receipts .mono { font-size: 10px; color: var(--red); letter-spacing: .1em; }
+.rule-receipts small { font-weight: 500; font-size: .72em; color: var(--mute); margin-left: .2em; }
 
 /* 07 join */
 .join { height: 170vh; }
