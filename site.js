@@ -6,11 +6,11 @@ const CONFIG = {
   discordInvite: "https://discord.gg/k6h8BWQcwc",
 
   // 物理演算で落ちてくるタグ
+  // [text, style]  style: red / paper / blue / yellow / en(英字) / big(大きいブロック)
   pit: [
-    ["CANNIBALISM", "人〇食", "red"], ["BUTT SPARKLER", "ケツ穴線香花火", ""], ["NAKED GUITAR", "全〇ギター", "paper"],
-    ["HONEY TRAP", "美人局", ""], ["SCAM", "詐○", "red"], ["STREET RACING", "珍走", "blue"],
-    ["PUBLIC INDECENCY", "公然わいせつ", ""], ["WORKPLACE RAID", "職場凸", "paper"],
-    ["SAY IT.", "", ""], ["DO IT.", "有言実行", "red"],
+    ["有", "big red"], ["言", "big paper"], ["実", "big"], ["行", "big yellow"],
+    ["隣人部", "blue"], ["復活!!", "red"], ["古き隣人よ戻れ", ""], ["新たな漢集え", "paper"],
+    ["ルールはただ1つ", ""], ["SAY IT.", "en"], ["DO IT.", "en red"], ["RINJIN CLAB", "en paper"],
   ],
 };
 // ============================================================
@@ -239,7 +239,9 @@ const scenes = {
 
   rule(p, el) {
     const pre = $(".rule-pre", el);
-    pre.style.opacity = ramp(p, 0.02, 0.12) * (1 - ramp(p, 0.75, 0.85));
+    const pIn = outExpo(ramp(p, 0.02, 0.16));
+    pre.style.opacity = pIn;
+    pre.style.transform = `translate3d(0, ${(1 - pIn) * 30}px, 0)`;
 
     const slam = ramp(p, 0.62, 0.74);
     const amp = REDUCED ? 0 : (1 - slam) * (slam > 0 ? 16 : 0);
@@ -248,31 +250,16 @@ const scenes = {
     word.style.transform = `translate3d(${(hash(step) - 0.5) * amp}px, ${(hash(step + 99) - 0.5) * amp}px, 0)`;
     const sh = outExpo(slam);
     $$("span", word).forEach((s, i) => {
-      const k = outExpo(ramp(p, 0.12 + i * 0.1, 0.32 + i * 0.1));
+      const k = outExpo(ramp(p, 0.18 + i * 0.08, 0.38 + i * 0.08));
       s.style.opacity = k;
-      s.style.transform = `translate3d(${(1 - k) * (i % 2 ? 40 : -40)}%, 0, 0) skewX(${(1 - k) * -14}deg)`;
-      s.style.filter = k < 1 ? `blur(${(1 - k) * 14}px)` : "none";
-      s.style.textShadow = i > 1 ? `${sh * 0.045}em ${sh * 0.045}em 0 var(--red)` : "none";
+      s.style.transform = `translate3d(0, ${(1 - k) * 24}%, 0) scale(${lerp(1.9, 1, k)})`;
+      s.style.filter = k < 1 ? `blur(${(1 - k) * 16}px)` : "none";
+      s.style.textShadow = `${sh * 0.04}em ${sh * 0.04}em 0 var(--red)`;
     });
-    $(".rule-en", el).style.opacity = ramp(p, 0.72, 0.82);
-  },
-
-  welcome(p, el) {
-    const items = $$(".wl li", el);
-    items.forEach((li, i) => {
-      const k = outExpo(ramp(p, 0.05 + i * 0.13, 0.25 + i * 0.13));
-      li.classList.toggle("on", k > 0.5);
-      li.style.transform = `translate3d(${(1 - k) * 12}vw, 0, 0)`;
-    });
-    $(".wl-tail", el).style.opacity = ramp(p, 0.75, 0.85);
-  },
-
-  code(p, el) {
-    $$(".code-list li", el).forEach((li, i) => {
-      const k = outExpo(ramp(p, 0.06 + i * 0.13, 0.22 + i * 0.13));
-      li.style.opacity = lerp(0.14, 1, k);
-      li.style.transform = `translate3d(${(1 - k) * 36}px, 0, 0)`;
-    });
+    const en = $(".rule-en", el);
+    const e = outExpo(ramp(p, 0.72, 0.84));
+    en.style.opacity = e;
+    en.style.transform = `translate3d(0, ${(1 - e) * 20}px, 0)`;
   },
 
   join(p, el) {
@@ -319,11 +306,10 @@ const Pit = (() => {
     if (started) return; started = true;
     build();
     const W = host.clientWidth;
-    CONFIG.pit.forEach(([text, sub, tone], i) => {
+    CONFIG.pit.forEach(([text, tone], i) => {
       const el = document.createElement("span");
       el.className = "pill" + (tone ? " " + tone : "");
       el.textContent = text;
-      if (sub) { const sm = document.createElement("small"); sm.textContent = sub; el.append(sm); }
       host.append(el);
       const w = el.offsetWidth, h = el.offsetHeight;
       const x = clamp(w / 2 + rnd() * (W - w), w / 2, W - w / 2);

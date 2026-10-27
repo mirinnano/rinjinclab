@@ -56,9 +56,9 @@
 }
 .lk-badge b {
   position: relative;
-  font-family: "Shippori Mincho B1", "Noto Serif JP", serif;
-  font-weight: 800;
-  font-size: .78em;
+  font-family: "Dela Gothic One", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 400;
+  font-size: .72em;
   color: var(--lk-pink);
   text-shadow: .03em .03em 0 #fff;
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>RinjinCLAB Discord assets</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,900;1,900&family=Outfit:wght@200;300&family=JetBrains+Mono:wght@400;600&family=Shippori+Mincho+B1:wght@800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,900;1,900&family=Outfit:wght@200;300&family=JetBrains+Mono:wght@400;600&family=Dela+Gothic+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/logo.css">
 <style>
   html, body { margin: 0; background: transparent; }
@@ -17,7 +17,7 @@
   .icon { width: 512px; height: 512px; background: #1f33d6; display: grid; place-items: center; }
   .icon .pink { position: absolute; inset: 0; background: radial-gradient(circle, rgba(255,63,164,.6) 2.6px, transparent 3.2px) 0 0 / 14px 14px;
                 -webkit-mask: linear-gradient(135deg, transparent 40%, #000); mask: linear-gradient(135deg, transparent 40%, #000); }
-  .icon b { position: relative; font-family: "Shippori Mincho B1", serif; font-weight: 800; font-size: 330px; line-height: 1; color: #ff3fa4; text-shadow: 12px 12px 0 #fff; transform: translateY(-8px); }
+  .icon b { position: relative; font-family: "Dela Gothic One", sans-serif; font-weight: 400; font-size: 300px; line-height: 1; color: #ff3fa4; text-shadow: 12px 12px 0 #fff; transform: translateY(-8px); }
 
   /* icon alt — mascot */
   .icon2 { width: 512px; height: 512px; }
@@ -30,10 +30,10 @@
   .wide .copy { position: relative; display: flex; flex-direction: column; justify-content: center; padding-left: 7%; z-index: 1; }
   .wide .eyebrow { font-size: .16em; color: #8b8a86; margin-bottom: .5em; display: flex; align-items: center; gap: .5em; }
   .wide .eyebrow i { width: .5em; height: .5em; border-radius: 50%; background: #ff2a1a; display: inline-block; }
-  .wide .sub { white-space: nowrap; font-family: Archivo, sans-serif; font-style: italic; font-weight: 900; letter-spacing: -.03em; font-size: .3em; margin-top: .6em; }
-  .wide .sub span { color: #ff2a1a; }
-  .wide .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 2.4em; background: #ffe100; color: #0b0b0c; z-index: 2;
-               display: flex; align-items: center; gap: 1.2em; padding-left: 7%; font-family: Archivo, sans-serif; font-weight: 900; font-size: .2em; white-space: nowrap; }
+  .wide .sub { white-space: nowrap; font-family: "Dela Gothic One", sans-serif; font-feature-settings: "palt"; letter-spacing: -.03em; font-size: .3em; margin-top: .6em; }
+  .wide .sub span { color: #ff2a1a; font-family: Archivo, sans-serif; font-style: italic; font-weight: 900; }
+  .wide .bar { font-feature-settings: "palt"; position: absolute; left: 0; right: 0; bottom: 0; height: 2.4em; background: #ffe100; color: #0b0b0c; z-index: 2;
+               display: flex; align-items: center; gap: 1.2em; padding-left: 7%; font-family: Archivo, "Dela Gothic One", sans-serif; font-weight: 900; font-size: .2em; white-space: nowrap; }
   .wide .bar b { color: #ff2a1a; }
   .banner { width: 960px; height: 540px; font-size: 200px; }
   .splash { width: 1920px; height: 1080px; font-size: 400px; }
@@ -46,9 +46,9 @@
 <script>
 const t = new URLSearchParams(location.search).get("t") || "icon";
 const lockup = `<span class="lockup"><span><span class="lk-thin">neighbor</span><span class="lk-x">X</span></span><span class="lk-keep"><span class="lk-bold">rinjin CLAB</span><span class="lk-badge"><b>隣</b></span></span></span>`;
-const bar = `<div class="bar"><span>SAY IT. DO IT.</span><b>✳</b><span>OLD NEIGHBORS, COME HOME</span><b>✳</b><span>NEW BLOOD, PULL UP</span></div>`;
+const bar = `<div class="bar"><span>古き隣人よ戻れ</span><b>✳</b><span>新たな漢集え</span><b>✳</b><span>有言実行</span><b>✳</b><span>RINJIN CLAB</span></div>`;
 const wide = (cls) => `<div class="art wide ${cls}"><div class="dots" style="opacity:.35"></div>
-  <div class="copy"><div class="eyebrow mono">A DISCORD SERVER, REOPENED</div>${lockup}<div class="sub">THE LEGEND <span>IS BACK.</span></div></div>
+  <div class="copy"><div class="eyebrow mono">A DISCORD SERVER, REOPENED</div>${lockup}<div class="sub">隣人部 復活<span>!!</span></div></div>
   <div class="photo"></div>${bar}</div>`;
 const T = {
   icon:   `<div class="art icon"><div class="pink"></div><b>隣</b></div>`,
