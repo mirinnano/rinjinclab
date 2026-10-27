@@ -73,7 +73,7 @@ button { font: inherit; color: inherit; }
 }
 
 /* 01 stage */
-.stage { height: 380vh; }
+.stage { height: 300vh; }
 .gl, .stage-fallback { position: absolute; inset: 0; width: 100%; height: 100%; }
 .stage-fallback { display: none; background: url("assets/collage.webp") center 40% / cover; filter: grayscale(1) contrast(1.2) brightness(.6); }
 .no-gl .stage-fallback { display: block; }
@@ -136,7 +136,7 @@ button { font: inherit; color: inherit; }
 }
 
 /* 02 call — a pressed disc, crossed by tape */
-.call { height: 300vh; background: var(--ink); }
+.call { height: 240vh; background: var(--ink); }
 .call .pin { display: grid; place-items: center; }
 .stickers { position: relative; width: min(70vh, 84vw); aspect-ratio: 1; }
 .stk { position: absolute; will-change: transform; }
@@ -168,7 +168,7 @@ button { font: inherit; color: inherit; }
 }
 
 /* 03 rule */
-.rule { height: 320vh; }
+.rule { height: 260vh; }
 .rule .pin { display: grid; place-items: center; align-content: center; gap: clamp(14px, 3vh, 30px); background: radial-gradient(ellipse at 50% 55%, #1d0b08 0%, var(--ink) 65%); }
 .rule-pre { margin: 0; display: grid; justify-items: center; gap: 10px; text-align: center; }
 .rule-pre .jp { font-size: clamp(26px, 3.6vw, 56px); }
@@ -186,9 +186,12 @@ button { font: inherit; color: inherit; }
   font-size: clamp(22px, 3vw, 44px); opacity: 0;
 }
 .rule-en em { font-style: inherit; color: var(--red); }
+.rule-receipts { list-style: none; margin: clamp(8px, 2vh, 20px) 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 26px; opacity: 0; }
+.rule-receipts li { display: flex; align-items: baseline; gap: 10px; font-family: var(--jp); font-weight: 700; font-feature-settings: "palt"; font-size: clamp(15px, 1.5vw, 20px); color: #e6e5df; }
+.rule-receipts .mono { font-size: 10px; color: var(--red); letter-spacing: .1em; }
 
 /* 07 join */
-.join { height: 220vh; }
+.join { height: 170vh; }
 .join .pin { background: var(--blue); color: #fff; display: grid; align-items: center; }
 .join-halftone {
   position: absolute; inset: 0; pointer-events: none;
@@ -198,7 +201,8 @@ button { font: inherit; color: inherit; }
 }
 .join .scene-label { color: rgba(255,255,255,.65); }
 .join-body { position: relative; z-index: 2; padding: 0 var(--gutter); }
-.join-kicker { margin: 0 0 18px; display: flex; align-items: baseline; gap: 14px; }
+.join-kicker { margin: 0 0 18px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.join-kicker .jp { white-space: nowrap; }
 .join-kicker .jp { font-size: clamp(24px, 2.8vw, 40px); color: var(--pink); }
 .join-kicker .mono { font-size: 11px; color: rgba(255,255,255,.7); }
 .join-title {

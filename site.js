@@ -269,6 +269,9 @@ const scenes = {
     const e = outExpo(ramp(p, 0.72, 0.84));
     en.style.opacity = e;
     en.style.transform = `translate3d(0, ${(1 - e) * 20}px, 0)`;
+    const rc = $(".rule-receipts", el), r = outExpo(ramp(p, 0.8, 0.92));
+    rc.style.opacity = r;
+    rc.style.transform = `translate3d(0, ${(1 - r) * 16}px, 0)`;
   },
 
   join(p, el) {
